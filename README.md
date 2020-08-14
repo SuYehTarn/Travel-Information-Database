@@ -40,6 +40,6 @@
 
 Su, Yeh-Tarn - nukdus@msn.com
 
-[https://github.com/nucklus/Travel-Information-Database](https://github.com/nucklus/Travel-Information-Database)
+[TIDB on Github](https://github.com/nucklus/Travel-Information-Database)
 
-[https://travel-information-database.herokuapp.com](https://travel-information-database.herokuapp.com)
+[TIDB on Heroku](https://travel-information-database.herokuapp.com)
