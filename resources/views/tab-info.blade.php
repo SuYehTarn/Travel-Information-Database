@@ -22,11 +22,9 @@
 <ul>
 	<li>Bootstrap 3.3.4</li>
 	<li>jQuery 2.1.3</li>
-	<li><a href="www.heroku.com">Heroku: Cloud Application Platform</a></li>
-	<ul>
-		<li>PHP 7.4.8</li>
-		<li>Postgresql 12.3</li>
-	</ul>	
+	<li>Laravel 7.24</li>
+	<li>PHP 7.4.8</li>
+	<li>Postgresql 12.3</li>
 </ul>
 
 <h2 class='info-h2'>資料來源</h2>
