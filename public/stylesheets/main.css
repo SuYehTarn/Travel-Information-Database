@@ -1,0 +1,79 @@
+/* Hide scrollbar for Chrome, Safari and Opera */
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+header {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 150%;
+    color: white;
+    width: 100%;
+}
+
+.info-h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+header {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 150%;
+    color: white;
+    width: 100%;
+}
+
+.info-h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.add-item.active {
+	color: #f5f5f5;
+  background-color: #333;
+  border-color: #333;
+}
+
+.btn-group.btn-group-justified {
+	padding-bottom: 20px;
+}
+
+.tab-content {
+	padding-top: 10px;
+}
+
+.add-attra-icon {
+	float: right;
+}
+
+ul.nav.navbar-nav {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+}
+
+#navbar {
+  overflow: hidden;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.content {
+  /*padding: 16px;*/
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
