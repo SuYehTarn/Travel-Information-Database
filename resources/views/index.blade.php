@@ -5,28 +5,24 @@
 @section('header', '旅遊資訊資料庫')
 
 @section('content')
-	
-	<div class="content container">
 
-		<div class="tab-content" style="margin-bottom: 20px;">
-			
-			<div id="info" class="tab-pane fade in active">
+	<div class="tab-content">
+		
+		<div id="info" class="tab-pane container fade show active">
 
-				@include('tab-info')
+			@include('tab-info')
 
-			</div>
-			
-			<div id="attra" class="tab-pane fade">
+		</div>
+		
+		<div id="attra" class="tab-pane container fade">
 
-				@include('tab-attraction')
+			@include('tab-attraction')
 
-			</div>
-			
-			<div id="path" class="tab-pane fade">
+		</div>
+		
+		<div id="path" class="tab-pane container fade">
 
-				@include('tab-path')
-
-			</div>
+			@include('tab-path')
 
 		</div>
 
@@ -37,6 +33,10 @@
 @section('script')
 
 	<script type="text/javascript" src='/js/funcs.js'></script>
-	<script type="text/javascript" src='/js/flow-index.js'></script>
+	<script type="text/javascript">
+		$(document).ready( function() {
+			refresh();
+		});
+	</script>
 
 @endsection

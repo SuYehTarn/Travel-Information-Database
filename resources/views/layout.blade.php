@@ -9,7 +9,12 @@
 </head>
 
 <body>
-  <header class="text-center"><h1>@yield('header')</h1></header>
+
+  <div class="jumbotron jumbotron-fluid text-center mb-0">
+
+    <h1>@yield('header')</h1>
+
+  </div>
 
   @include('nav')
 

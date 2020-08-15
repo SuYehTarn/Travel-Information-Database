@@ -1,4 +1,4 @@
-<blockquote>
+<blockquote class="blockquote">
 	<p>提供景點之地址、開放時間，以及其間行動路線。</p>
 	<p>目前展示<strong>臺中</strong>之景點與公車資訊。</p>
 </blockquote>
@@ -35,6 +35,6 @@
 
 <h2 class="info-h2">關於作者</h2>
 <ul>
-	<li><a href="https://github.com/nucklus/TIDB">https://github.com/nucklus/TIDB</a></li>
+	<li><a href="Github">https://github.com/nucklus/Travel-Information-Database</a></li>
 	<li><a href="mailto:nukdus@msn.com">nukdus@msn.com</a></li>
 </ul>

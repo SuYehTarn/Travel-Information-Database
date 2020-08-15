@@ -8,28 +8,6 @@ html {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-header {
-    background-color: #666;
-    padding: 30px;
-    text-align: center;
-    font-size: 150%;
-    color: white;
-    width: 100%;
-}
-
-.info-h2 {
-  padding-bottom: .3em;
-  border-bottom: 1px solid #eaecef;
-}
-
-header {
-    background-color: #666;
-    padding: 30px;
-    text-align: center;
-    font-size: 150%;
-    color: white;
-    width: 100%;
-}
 
 .info-h2 {
   padding-bottom: .3em;
@@ -51,29 +29,48 @@ header {
 }
 
 .add-attra-icon {
-	float: right;
-}
-
-ul.nav.navbar-nav {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
+  display: inline;
+  margin-left: 5px;
 }
 
 #navbar {
   overflow: hidden;
 }
 
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
+.middleIcon {
+  vertical-align: middle;
 }
 
-.content {
-  /*padding: 16px;*/
+#pathModal .modal-header {
+  display: inline;
 }
 
-.sticky + .content {
-  padding-top: 60px;
+.blockquote {
+  padding: .5rem 1rem;
+  border-left: .25rem solid #eceeef;
+}
+
+.nav-pills .nav-item .active {
+  background-color: #505962;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.nav-link:hover {
+  color: #fff;
+  background-color: #394046;
+}
+
+.path-steps .fas {
+  margin-right: 5px;
+}
+
+#attractions .list-group-item {
+  display: inline;
+}
+
+#attractions .list-group-item .col-sm-2 {
+  text-align: right;
 }

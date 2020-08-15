@@ -49,11 +49,14 @@ function getPath() {
 * @arg elem: DOM.
 */
 function getAttraInfo(elem) {
-    var modal = $(elem.dataset.target).find(`.modal-body`);
+    //var modal = $(elem.dataset.target).find(`.modal-body`);
     var attra = elem.dataset.value;
 
     $.get(`/attractions/info=${attra}`, function(html) {
-        modal.empty().append(html);
+        $('#attraInfo .modal-title').empty().text(attra);
+        $('#attraInfo .modal-body').empty().append(html);
+        $('#attraInfo').modal('toggle');
+        //modal.empty().append(html);
     });
 }
 
@@ -75,8 +78,6 @@ function buildAddList() {
 
     var list = JSON.parse(sessionStorage.getItem('add_list'));
     
-    $('#add_list').empty();
-
     if (!list) {
         $('#add_list').append(
             $(document.createElement('p'))
@@ -85,30 +86,34 @@ function buildAddList() {
         return;
     }
 
+    $('#add_list').empty();
+
     for (let attra of list) {
-        $('#add_list')
-            .append($(document.createElement('div'))
-                .addClass('panel-heading')
-                .addClass('add-item')
-                .data('value', attra)
-                .click( function() {
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-                    } else {
-                        $('#add_list .add-item')
-                            .removeClass('active');
-                        $(this).addClass('active');
-                    }
-                })
-                .append($(document.createElement('span'))
-                    .addClass('panel-title')
-                    .text(attra))
-                .append($(document.createElement('span'))
-                    .addClass('glyphicon glyphicon-minus')
-                    .addClass('add-attra-icon')
-                    .click(function(event) {
-                        addAttra(event, $(this));
-                    })));
+
+        var icon = $(document.createElement('i'))
+            .addClass('fas fa-minus add-attra-icon')
+            .click( function() {
+                addAttra(event, $(this));
+            });
+
+        var item = $(document.createElement('div'))
+            .addClass('list-group-item add-item')
+            .addClass('justify-content-between d-flex')
+            .addClass('align-items-center')
+            .data('value', attra)
+            .text(attra)
+            .append(icon)
+            .click( function() {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $('#add_list .list-group-item')
+                        .removeClass('active');
+                    $(this).addClass('active');
+                }
+            });
+
+        $('#add_list').append(item);
     }
     setFromToTag();
 }
@@ -120,20 +125,20 @@ function buildAddList() {
 */
 function buildAddAttraIcon() {    
     $('#attra .add-attra-icon')
-        .removeClass()
-        .addClass('add-attra-icon glyphicon glyphicon-plus');
+        .removeClass('fa-check')
+        .addClass('fa-plus');
     
     var list = JSON.parse(sessionStorage.getItem('add_list'));
     
     if (!list) { return; }
 
-    $('#attra .panel-heading')
+    $('#attra .list-group-item')
         .filter( function() {
             return list.includes($(this).data('value'));
         })
         .find('.add-attra-icon')
-        .removeClass()
-        .addClass('add-attra-icon glyphicon glyphicon-ok');
+        .removeClass('fa-plus')
+        .addClass('fa-check');
 }
 
 /*
@@ -155,11 +160,9 @@ function addAttra(event, elem) {
     */
     var attraName = $(elem).parent().data('value');
     if ( !list.includes(attraName) ) {
-
         list.push(attraName);
     
     } else {
-
         list = list.filter(attra => attra != attraName);
     }
     /*
@@ -198,7 +201,7 @@ function moveAttra(dir) {
     if (dir != 'fore' && dir != 'back') { return; }
 
     var list = JSON.parse(sessionStorage.getItem('add_list'));
-    var value = $(".add-item.active .panel-title").text();
+    var value = $(".add-item.active").text();
     var index = list.indexOf(value);
 
     // Return if the index is out of defined range.
@@ -227,7 +230,7 @@ function setFromToTag(tag) {
     */
     if (tag && $("#add_list .active").length) {
 
-        var attra = $("#add_list .active span.panel-title").text();    
+        var attra = $("#add_list .active").text();    
         
         var anti_tag = (tag == 'from') ? 'to' : 'from';
 
@@ -245,11 +248,11 @@ function setFromToTag(tag) {
 
     var list = JSON.parse(sessionStorage.getItem('add_list'));
 
+    $('.add-item').removeClass('bg-primary bg-info');
+
     /*
     * Stick the from-tag
     */
-    $(`span.badge:contains('From')`).detach();
-
     var from = sessionStorage.getItem('from');
     
     if (from) {
@@ -258,21 +261,13 @@ function setFromToTag(tag) {
             sessionStorage.removeItem('from');
         }
 
-        var fromSpan = $(document.createElement('span'))
-            .text('From')
-            .addClass('badge')
-            .css({'float': 'right', 'margin-right': '10px'});
-
-        $(`#add_list span:contains('${from}')`).parent()
-            .addClass('from')
-            .append(fromSpan);
+        $(`.add-item:contains('${from}')`)
+            .addClass('from bg-primary');
     }
 
     /*
     * Stick the to-tag
     */
-    $(`span.badge:contains('To')`).detach();
-
     var to = sessionStorage.getItem('to');
 
     if (to) {
@@ -281,14 +276,8 @@ function setFromToTag(tag) {
             sessionStorage.removeItem('to');
         }
 
-        var toSpan = $(document.createElement('span'))
-            .text('To')
-            .addClass('badge')
-            .css({'float': 'right', 'margin-right': '10px'});
-
-        $(`#add_list span:contains('${to}')`).parent()
-            .addClass('to')
-            .append(toSpan);
+        $(`.add-item:contains('${to}')`)
+            .addClass('to bg-info');
     }
 }
 
