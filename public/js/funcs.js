@@ -10,7 +10,12 @@ function getPath() {
 
     if (! from || ! to ) { return; }
 
-    $.get(`/path/from=${from}+to=${to}`, function(html) {
+    $.get(`/path/from=${from}+to=${to}`, function(data) {
+        paths = JSON.parse(data);
+        sessionStorage.setItem('paths', paths);
+    });
+
+    /*$.get(`/path/from=${from}+to=${to}`, function(html) {
         
         // Display the from-attraction.
         $("#path-from-attra").empty().text(from);
@@ -38,7 +43,7 @@ function getPath() {
 
         // Display the path modal.
         $('#pathModal').modal('toggle');
-    });
+    });*/
 }
 
 /*

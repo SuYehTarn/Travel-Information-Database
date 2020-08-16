@@ -221,18 +221,34 @@ class Path_Builder {
                 'line'   => $line
             ];
         }
-        return $stepSeq;
+
+        $nodes = [];
+        foreach ($stepSeq as $key => $step) {
+            if ($key == 0) {
+                // Code 0 stands for bus stop
+                $nodes[] = [0, $step['on_st']];
+                // Code 1 stands for bus line
+                $nodes[] = [1, $step['line']];
+                $nodes[] = [0, $step['off_st']];
+                $lastStop = $step['off_st'];
+                continue;
+            }
+
+            if ($lastStop != $step['on_st']) {
+                $nodes[] = [2, ''];
+                $nodes[] = [0, $step['on_st']];
+            }
+
+            $nodes[] = [1, $step['line']];
+            $nodes[] = [0, $step['off_st']];
+            
+            $lastStop = $step['off_st'];
+        }
+
+        return $nodes;
     }
 
     public function buildPath($returnFirst = TRUE) {
-
-        // Basic information
-        /*$this->paths = [
-            'from_attra' => $this->startAttra['attra_name'],
-            'to_attra'   => $this->goalAttra['attra_name'],
-            'from_st'    => $this->startStop['stop_name'],
-            'to_st'      => $this->goalStop['stop_name']
-        ];*/
 
         $minInterLn = NULL;
 
@@ -243,7 +259,6 @@ class Path_Builder {
             *   than path results got previously.
             */
             if ( ! is_null($minInterLn) and count($seq['inter_lines']) > $minInterLn ) {
-                //$_SESSION['app']['monolog']->addDebug('Exceed inter line minimum of '. $minInterLn );
                 break;
             }
 
@@ -255,7 +270,6 @@ class Path_Builder {
                 //$_SESSION['app']['monolog']->addDebug('Get Path: '. json_encode($path));
 
                 $this->paths[] = $this->refinePath($path);
-                //$this->paths[] = $path;
                 $minInterLn = count($path['lineSequence']['inter_lines']);
                 
                 // Do not want to get multiple path results.
