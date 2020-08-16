@@ -28,6 +28,9 @@ Route::get('/attractions/info={attra_name}', function($attra_name) {
 
 Route::get('/path/from={attra_name1}+to={attra_name2}', function($attra_name1, $attra_name2) {
 	$paths = getPaths(urldecode($attra_name1), urldecode($attra_name2)); 
-    //return view('modal-path', ['paths' => $paths]);
-    return json_encode($paths);
+    //return ;
+    return json_encode([
+    	'html' => view('modal-path', ['paths' => $paths])->render(),
+    	'paths' => $paths
+    ]);
 });

@@ -36,6 +36,15 @@
 	<script type="text/javascript">
 		$(document).ready( function() {
 			refresh();
+
+			$('#pathCarousel').on('slid.bs.carousel', function() {
+				setPnum();
+			});
+
+			$('#pathModal').on('show.bs.modal', function() {
+			  	setPnum();
+			});
+
 		});
 	</script>
 

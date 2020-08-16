@@ -223,6 +223,7 @@ class Path_Builder {
         }
 
         $nodes = [];
+        $nodes[] = [3, $this->startAttra['attra_name']];
         foreach ($stepSeq as $key => $step) {
             if ($key == 0) {
                 // Code 0 stands for bus stop
@@ -244,7 +245,7 @@ class Path_Builder {
             
             $lastStop = $step['off_st'];
         }
-
+        $nodes[] = [3, $this->goalAttra['attra_name']];
         return $nodes;
     }
 

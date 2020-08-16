@@ -12,10 +12,18 @@ function getPath() {
 
     $.get(`/path/from=${from}+to=${to}`, function(data) {
         paths = JSON.parse(data);
-        sessionStorage.setItem('paths', paths);
+        
+
+
     });
 
-    /*$.get(`/path/from=${from}+to=${to}`, function(html) {
+    $.get(`/path/from=${from}+to=${to}`, function(data) {
+
+        data = JSON.parse(data);
+
+        html = data.html;
+
+        paths = html.paths; 
         
         // Display the from-attraction.
         $("#path-from-attra").empty().text(from);
@@ -26,6 +34,7 @@ function getPath() {
         // Display the path steps list returned for the server.
         $('#path-steps-list').empty().append(html);
 
+        /*
         // Count the path result amount.
         var pnum = $('.path-steps').length;
 
@@ -39,11 +48,11 @@ function getPath() {
 
             // Display the first page.
             $(`.path-steps:eq(0)`).css('display', '');
-        }
+        }*/
 
         // Display the path modal.
         $('#pathModal').modal('toggle');
-    });*/
+    });
 }
 
 /*
@@ -317,4 +326,10 @@ function changePage(dir) {
         // Save the new page index.
         sessionStorage.setItem('path_index', tIndex);  
     }
+}
+
+function setPnum() {
+    var pnum = $('.carousel-item.active').data('pnum');
+    var total = $('.carousel-item').length;
+    $('#pnum').empty().text(`${pnum} / ${total}`);
 }

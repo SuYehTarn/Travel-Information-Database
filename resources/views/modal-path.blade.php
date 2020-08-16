@@ -1,39 +1,60 @@
 @if ($paths)
 
-	@foreach ($paths as $path)
+@foreach ($paths as $path)
 
-		<div id="path-steps-{{ $loop->iteration }}" class="list-group path-steps" style="display: none;">
-				
-			@foreach ($path as $step)
+@if ($loop->index == 0)
 
-				<div class="list-group-item align-items-center">
-					<div class="row">
+<div class="carousel-item active" data-pnum="{{ $loop->iteration }}">
 
-					<!--From stop-->
-						<div class="col-sm-4">
-							<span class="fas fa-walking"></span>
-							<span>{{ $step['on_st'] }}</span>
-						</div>
+@else
 
-					<!--With line-->
-						<div class="col-sm-4">
-							<span class="fas fa-bus"></span>
-							<span>{{ str_replace('_', '-', $step['line']) }}</span>
-						</div>
+<div class="carousel-item" data-pnum="{{ $loop->iteration }}">
 
-					<!--To stop-->
-						<div class="col-sm-4">
-							<span class="fas fa-flag-checkered"></span>
-							<span>{{ $step['off_st'] }}</span>
-						</div>
-					</div>
-				</div>
+@endif
+	
+	<div class="d-flex flex-column path-steps">
+	
+	@foreach ($path as $node)
 
-			@endforeach
+		<div class="d-flex justify-content-left align-items-center my-2">
 
+			@if ($node[0] == 0)
+
+			<span class="fas fa-sign fa-fw mr-3"></span>
+
+			@elseif ($node[0] == 1)
+
+			<span class="fas fa-bus fa-fw mr-3"></span>
+
+			@elseif ($node[0] == 2)
+
+			<span class="fas fa-walking fa-fw mr-3"></span>
+
+			@elseif ($node[0] == 3)
+
+				@if ($loop->iteration == count($path))
+
+				<span class="fas fa-flag-checkered fa-fw mr-3"></span>
+
+				@else
+
+				<span class="fas fa-map-marker-alt fa-fw mr-3"></span>
+
+				@endif
+
+			@endif
+
+			<span>{{ $node[1] }}</span>
+		
 		</div>
 
 	@endforeach
+
+	</div>
+
+</div>
+
+@endforeach
 
 @else
 
