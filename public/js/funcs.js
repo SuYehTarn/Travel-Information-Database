@@ -11,19 +11,14 @@ function getPath() {
     if (! from || ! to ) { return; }
 
     $.get(`/path/from=${from}+to=${to}`, function(data) {
-        paths = JSON.parse(data);
-        
-
-
-    });
-
-    $.get(`/path/from=${from}+to=${to}`, function(data) {
 
         data = JSON.parse(data);
 
-        html = data.html;
+        var html = data.html;
 
-        paths = html.paths; 
+        var paths = html.paths;
+
+        sessionStorage.setItem('paths', JSON.stringify(paths));
         
         // Display the from-attraction.
         $("#path-from-attra").empty().text(from);
@@ -33,22 +28,6 @@ function getPath() {
 
         // Display the path steps list returned for the server.
         $('#path-steps-list').empty().append(html);
-
-        /*
-        // Count the path result amount.
-        var pnum = $('.path-steps').length;
-
-        if (pnum) {
-
-            // Store the page index.
-            sessionStorage.setItem('path_index', 1);
-
-            // Display the page index.
-            $('#path-page').empty().text(`${1}/${pnum}`);            
-
-            // Display the first page.
-            $(`.path-steps:eq(0)`).css('display', '');
-        }*/
 
         // Display the path modal.
         $('#pathModal').modal('toggle');
@@ -63,14 +42,13 @@ function getPath() {
 * @arg elem: DOM.
 */
 function getAttraInfo(elem) {
-    //var modal = $(elem.dataset.target).find(`.modal-body`);
+
     var attra = elem.dataset.value;
 
     $.get(`/attractions/info=${attra}`, function(html) {
         $('#attraInfo .modal-title').empty().text(attra);
         $('#attraInfo .modal-body').empty().append(html);
         $('#attraInfo').modal('toggle');
-        //modal.empty().append(html);
     });
 }
 
@@ -328,6 +306,10 @@ function changePage(dir) {
     }
 }
 
+/*
+* A method of setting the page number of the  current
+* shown path results.
+*/
 function setPnum() {
     var pnum = $('.carousel-item.active').data('pnum');
     var total = $('.carousel-item').length;

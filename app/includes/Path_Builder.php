@@ -196,12 +196,39 @@ class Path_Builder {
                 );
             }
         }
+        $this->testDuplicated();
     }
+
+    private function testDuplicated() {
+        foreach ($this->lineSequences as $k1 => $seq1) {
+            $sl1 = $seq1['start_line'];
+            $gl1 = $seq1['goal_line'];
+            $il1 = $seq1['inter_lines'];
+            foreach ($this->lineSequences as $k2 => $seq2) {
+                if ($k2<=$k1) { continue; }
+                $sl2 = $seq2['start_line'];
+                $gl2 = $seq2['goal_line'];
+                $il2 = $seq2['inter_lines'];
+                if ($sl1 == $sl2 and $gl1 == $gl2 and count($il1) == count($il2)) {
+                    $same = TRUE;
+                    foreach ($il1 as $key => $l1) {
+                        if ($l1 != $il2[$key]) {
+                            $same = FALSE;
+                        }
+                    }
+                    if ($same){
+                        Log::warning('same line seq');
+                    }
+                }
+            }
+        }
+    }
+
     private function refinePath($path) {
 
         $stopSeq = [];
         $stopSeq[] = $this->startStop['stop_name'];
-        foreach ($path['links'] as $key => $link) {
+        foreach ($path['links'] as $link) {
             $stopSeq[] = $link['from'];
             $stopSeq[] = $link['to'];
         }
@@ -214,7 +241,7 @@ class Path_Builder {
         );
 
         $stepSeq = [];
-        foreach ( $pureSeq as $key => $line ) {
+        foreach ( $pureSeq as $key => $line ) {            
             $stepSeq[] = [
                 'on_st'  => $stopSeq[$key*2],
                 'off_st' => $stopSeq[$key*2 + 1],
@@ -225,26 +252,16 @@ class Path_Builder {
         $nodes = [];
         $nodes[] = [3, $this->startAttra['attra_name']];
         foreach ($stepSeq as $key => $step) {
-            if ($key == 0) {
-                // Code 0 stands for bus stop
-                $nodes[] = [0, $step['on_st']];
-                // Code 1 stands for bus line
-                $nodes[] = [1, $step['line']];
-                $nodes[] = [0, $step['off_st']];
-                $lastStop = $step['off_st'];
-                continue;
-            }
 
-            if ($lastStop != $step['on_st']) {
-                $nodes[] = [2, ''];
+            if (end($nodes) != $step['on_st']) {
+                $nodes[] = [2, '步行'];
                 $nodes[] = [0, $step['on_st']];
             }
 
             $nodes[] = [1, $step['line']];
             $nodes[] = [0, $step['off_st']];
-            
-            $lastStop = $step['off_st'];
         }
+        $nodes[] = [2, '步行'];
         $nodes[] = [3, $this->goalAttra['attra_name']];
         return $nodes;
     }
@@ -259,16 +276,15 @@ class Path_Builder {
             *   Break if new line sequence has more inter line
             *   than path results got previously.
             */
-            if ( ! is_null($minInterLn) and count($seq['inter_lines']) > $minInterLn ) {
+            if (!is_null($minInterLn) and
+                count($seq['inter_lines']) > $minInterLn) {
                 break;
             }
 
             /*
-            *   A path is found.
+            *   Add path result if a path is found.
             */
             if ( $path = $this->seekPath($seq) ) {
-
-                //$_SESSION['app']['monolog']->addDebug('Get Path: '. json_encode($path));
 
                 $this->paths[] = $this->refinePath($path);
                 $minInterLn = count($path['lineSequence']['inter_lines']);
@@ -281,19 +297,21 @@ class Path_Builder {
             /*
             *   Add new line sequences with a failed sequence.
             */
-            if ( empty($this->lineSequences) and ! empty($this->failed_seq) ) {
-                $pureSeq      = array_shift($this->failed_seq);
-                $newLineNames = array_diff(array_keys($this->Lines), $pureSeq);
+            if (empty($this->lineSequences) and
+                !empty($this->failed_seq)) {
+                $pureSeq = array_shift($this->failed_seq);
+                $remainedLineNames = array_diff(array_keys($this->Lines), $pureSeq);
                 $lineSequence = [
                     'start_line'  => $pureSeq[0], 
                     'goal_line'   => end($pureSeq),
                     'inter_lines' => array_slice($pureSeq, 1, -1)
                 ];
-                foreach ($newLineNames as $lineName) {
+                foreach ($remainedLineNames as $lineName) {
                     $lineSequence['inter_lines'][] = $lineName;
                     $this->lineSequences[] = $lineSequence;
                 }
             }
+            $this->testDuplicated();
         }
     }
 
