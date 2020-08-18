@@ -13,14 +13,14 @@
 ### Searching Paths
 
 1. Click "路線試算" in the nav-bar to display the marked list.
-2. Click an attraction row, and then click the "From" button to set it as the starting point.
-3. Click an attraction row, and then click the "To" button to set it as the destination.
-4. Click the button with search icon to search the paths between two attractions.
+2. Click an attraction row, and then click the walking button to set it as the starting point.
+3. Click an attraction row, and then click the checkered flag button to set it as the destination.
+4. Click the button with route icon to search the paths between two attractions.
 
 ## Environment of System
 
-* Bootstrap 3.3.4
-* jQuery 2.1.3
+* Bootstrap 4.5.2
+* jQuery 3.5.1
 * Laravel 7.24
 * [Heroku: Cloud Application Platform](www.heroku.com)
 	* PHP 7.4.8
