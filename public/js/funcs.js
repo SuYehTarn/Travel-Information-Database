@@ -115,7 +115,11 @@ function buildAddList() {
 * attraction panel accroding to whether the attraction is
 * in the user-added list or not.
 */
-function buildAddAttraIcon() {    
+function buildAddAttraIcon() {
+
+    $('#attra .text-white.bg-secondary')
+        .removeClass('text-white bg-secondary');
+
     $('#attra .add-attra-icon')
         .removeClass('fa-check')
         .addClass('fa-plus');
@@ -128,6 +132,7 @@ function buildAddAttraIcon() {
         .filter( function() {
             return list.includes($(this).data('value'));
         })
+        .addClass('text-white bg-secondary')
         .find('.add-attra-icon')
         .removeClass('fa-plus')
         .addClass('fa-check');
@@ -273,38 +278,6 @@ function setFromToTag(tag) {
     }
 }
 
-
-/*
-* A method of displaying the previous or the next page
-* of a path result page.
-*/
-function changePage(dir) {
-    
-    var index = parseInt(sessionStorage.getItem('path_index'));
-    if (!index) { return; }
-
-    if (dir == 'prev') { var tIndex = index-1; }
-    if (dir == 'next') { var tIndex = index+1; }
-
-    var pageExists = Boolean( $(`#path-steps-${tIndex}`).length );
-
-    if ( pageExists ) {
-
-        // Hide all pages.
-        $('.path-steps').css('display', 'none');
-
-        // Display the target page.
-        $(`#path-steps-${tIndex}`).fadeIn();
-
-        // Renew the page number.
-        var text = $('#path-page').text().split('/');
-        text[0] = tIndex;
-        $('#path-page').text(text.join('/'));
-        
-        // Save the new page index.
-        sessionStorage.setItem('path_index', tIndex);  
-    }
-}
 
 /*
 * A method of setting the page number of the  current
